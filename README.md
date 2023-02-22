@@ -4,7 +4,7 @@
 [![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/lepikhinb/laravel-typescript/run-tests?label=tests)](https://github.com/lepikhinb/laravel-typescript/actions?query=workflow%3Arun-tests+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/based/laravel-typescript.svg?style=flat-square)](https://packagist.org/packages/based/laravel-typescript)
 
-The package lets you generate TypeScript interfaces from your Laravel models.
+The package lets you generate TypeScript types from your Laravel models.
 
 ## Introduction
 Say you have a model which has several properties (database columns) and multiple relations.
@@ -23,20 +23,22 @@ class Product extends Model
 }
 ```
 
-Laravel TypeScript will generate the following TypeScript interface:
+Laravel TypeScript will generate the following TypeScript type:
 
 ```typescript
-declare namespace App.Models {
-    export interface Product {
-        id: number;
-        category_id: number;
-        name: string;
-        price: number;
-        created_at: string | null;
-        updated_at: string | null;
-        category?: App.Models.Category | null;
-        features?: Array<App.Models.Feature> | null;
-    }
+export type App = {
+    Models: {
+        Product: {
+            id: number;
+            category_id: number;
+            name: string;
+            price: number;
+            created_at: string | null;
+            updated_at: string | null;
+            category?: App.Models.Category | null;
+            features?: Array<App.Models.Feature> | null;
+        }
+    };
     ...
 }
 ```
@@ -49,7 +51,7 @@ declare namespace App.Models {
 
 ## Installation
 
-**Laravel 8 and PHP 8 are required.**
+**Laravel 8+ and PHP 8+ are required.**
 You can install the package via composer:
 
 ```bash
@@ -69,7 +71,7 @@ return [
         Model::class => ModelGenerator::class,
     ],
 
-    'output' => resource_path('js/models.d.ts'),
+    'output' => resource_path('js/types/models.d.ts'),
 
     // load namespaces from composer's `dev-autoload`
     'autoloadDev' => false,
@@ -84,17 +86,17 @@ Generate TypeScript interfaces.
 php artisan typescript:generate
 ```
 
-Example usage with Vue 3:
-```typescript
-import { defineComponent, PropType } from "vue";
+Or the shortcut:
+```bash
+php artisan ts:generate
+```
 
-export default defineComponent({
-    props: {
-        product: {
-            type: Object as PropType<App.Models.Product>,
-            required: true,
-        },
-    },
+Example usage with React:
+```typescript
+import type { App } from '@/types';
+
+interface Props {
+    Product: App['Models']['Product'];
 }
 ```
 
