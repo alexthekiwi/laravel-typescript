@@ -17,7 +17,7 @@ return [
         // \App\Rules\MyOtherCustomRule::class => ['string', 'number'],
     ],
 
-    'output' => resource_path('js/models.d.ts'),
+    'output' => resource_path('js/types/models.d.ts'),
 
     'autoloadDev' => false,
 ];
