@@ -18,6 +18,9 @@ abstract class AbstractGenerator implements Generator
             return "        {$this->tsClassName()}: {};" . PHP_EOL;
         }
 
+        // Turn namespace style into object style
+        $definition = preg_replace('/\.(\w+)/', "['$1']", $definition);
+
         return <<<TS
                 {$this->tsClassName()}: {
                     $definition
