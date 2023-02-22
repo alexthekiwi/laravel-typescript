@@ -45,7 +45,7 @@ class ModelGenerator extends AbstractGenerator
             $this->getAccessors(),
         ])
             ->filter(fn (string $part) => !empty($part))
-            ->join(PHP_EOL . '        ');
+            ->join(PHP_EOL . '            ');
     }
 
     /**
@@ -72,7 +72,7 @@ class ModelGenerator extends AbstractGenerator
                 nullable: !$column->getNotnull()
             );
         })
-            ->join(PHP_EOL . '        ');
+            ->join(PHP_EOL . '            ');
     }
 
     protected function getAccessors(): string
@@ -98,7 +98,7 @@ class ModelGenerator extends AbstractGenerator
                     readonly: true
                 );
             })
-            ->join(PHP_EOL . '        ');
+            ->join(PHP_EOL . '            ');
     }
 
     protected function getRelations(): string
@@ -112,7 +112,7 @@ class ModelGenerator extends AbstractGenerator
                     nullable: true
                 );
             })
-            ->join(PHP_EOL . '        ');
+            ->join(PHP_EOL . '            ');
     }
 
     protected function getManyRelations(): string
@@ -127,7 +127,7 @@ class ModelGenerator extends AbstractGenerator
                     nullable: true
                 );
             })
-            ->join(PHP_EOL . '        ');
+            ->join(PHP_EOL . '            ');
     }
 
     protected function getRelationMethods(): Collection

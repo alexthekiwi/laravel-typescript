@@ -42,17 +42,25 @@ class TypeScriptGenerator
 
     protected function makeNamespace(string $namespace, Collection $reflections): string
     {
-        return $reflections->map(fn (ReflectionClass $reflection) => $this->makeInterface($reflection))
+        return $reflections->map(fn (ReflectionClass $reflection) => $this->makeType($reflection))
             ->whereNotNull()
             ->whenNotEmpty(function (Collection $definitions) use ($namespace) {
                 $tsNamespace = str_replace('\\', '.', $namespace);
+                $parts = explode('.', $tsNamespace);
+                $rootType = array_shift($parts);
 
-                return $definitions->prepend("declare namespace {$tsNamespace} {")->push('}' . PHP_EOL);
+                foreach ($parts as $type) {
+                    $definitions->prepend("    {$type}: {")->push('};' . PHP_EOL);
+                }
+
+                $definitions->prepend("export type {$rootType} = {")->push('};' . PHP_EOL);
+
+                return $definitions;
             })
             ->join(PHP_EOL);
     }
 
-    protected function makeInterface(ReflectionClass $reflection): ?string
+    protected function makeType(ReflectionClass $reflection): ?string
     {
         $generator = collect($this->generators)
             ->filter(fn (string $generator, string $baseClass) => $reflection->isSubclassOf($baseClass))
