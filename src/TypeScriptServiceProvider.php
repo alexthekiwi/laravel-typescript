@@ -3,6 +3,7 @@
 namespace Based\TypeScript;
 
 use Based\TypeScript\Commands\TypeScriptGenerateCommand;
+use Based\TypeScript\Commands\TsGenerateCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -13,6 +14,7 @@ class TypeScriptServiceProvider extends PackageServiceProvider
         $package
             ->name('laravel-typescript')
             ->hasConfigFile('typescript')
-            ->hasCommand(TypeScriptGenerateCommand::class);
+            ->hasCommand(TypeScriptGenerateCommand::class)
+            ->hasCommand(TsGenerateCommand::class);
     }
 }
