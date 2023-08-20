@@ -4,6 +4,7 @@ namespace Based\TypeScript\Commands;
 
 use Based\TypeScript\TypeScriptGenerator;
 use Illuminate\Console\Command;
+use Illuminate\Database\Eloquent\Model;
 
 class TypeScriptGenerateCommand extends Command
 {
@@ -13,6 +14,9 @@ class TypeScriptGenerateCommand extends Command
 
     public function handle()
     {
+        // Allow accessing missing attributes while we generate definitions
+        Model::preventAccessingMissingAttributes(false);
+
         $generator = new TypeScriptGenerator(
             generators: config('typescript.generators', []),
             paths: config('typescript.paths', []),
